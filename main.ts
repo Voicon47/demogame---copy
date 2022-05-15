@@ -262,6 +262,19 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
             )
         }
     }
+    if (numberJump < 2) {
+        numberJump = 1
+        char.vy = -150
+    }
+    if (numberJump == 0) {
+        char.startEffect(effects.fire, 100)
+        scene.cameraShake(4, 500)
+    }
+})
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    if (sprite.isHittingTile(CollisionDirection.Bottom)) {
+        numberJump = 0
+    }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     attack = 1
@@ -2328,6 +2341,7 @@ function startlevel () {
         tiles.placeOnTile(apple, value22)
         tiles.setTileAt(value22, assets.tile`transparency16`)
     }
+    numberJump = 0
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.destroy()
@@ -2346,6 +2360,7 @@ let ghost: Sprite = null
 let wall1: Sprite = null
 let moving = false
 let attack = 0
+let numberJump = 0
 let char: Sprite = null
 let checkface = 0
 let current_level = 0
